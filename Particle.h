@@ -22,16 +22,16 @@ public:
 	~Particle();
 
 	/*helpers for velocity verlet*/
-	updateAcceleration(const Vector&);
-	updateVelocity(double = 1);
-	updateHalfVelocity(double = 1);
-	updatePosition(double = 1);
+	void updateAcceleration(const Vector&);
+	void updateVelocity(double = 1);
+	void updateHalfVelocity(double = 1);
+	void updatePosition(double = 1);
 
 	/* velocity verlet*/
-	updateByVelocityVerlet(const Vector&, double);
+	void updateByVelocityVerlet(const Vector&, double);
 
 	/* position, velocity, acc printers*/
-	printPosVelAcc() {
+	void printPosVelAcc() {
 		std::cout << position << "\t" << velocity << "\t" << acc << "\n";
 	}
 };

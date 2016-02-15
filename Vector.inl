@@ -44,12 +44,12 @@ double Vector :: length() {
 
 /*io operations*/
 
-ostream& operator<< (ostream& output, const Vector& v) {
+std::ostream& operator<< (std::ostream& output, const Vector& v) {
 	output << "( " << v.i << ", " << v.j << ", " << v.k << ")";
 	return output;
 }
 
-istream& operator>> (ostream& input, Vector& v) {
+std::istream& operator>> (std::istream& input, Vector& v) {
 	input  >> v.i >> v.j >> v.k;
 
 	return input;

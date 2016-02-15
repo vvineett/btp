@@ -21,8 +21,8 @@ public:
 	friend double operator| (const Vector&, const Vector&);  //scalar product of vectors
 
 	/* basic io operations*/
-	friend ostream& operator<< (ostream&, const Vector&);
-	friend istream& operator>> (istream&, Vector&);
+	friend std::ostream& operator<< (std::ostream&, const Vector&);
+	friend std::istream& operator>> (std::istream&, Vector&);
 
 };
 
