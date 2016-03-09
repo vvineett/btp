@@ -60,35 +60,35 @@ double sign(double a) {
 }
 
 
-void Particle::checkBoundaryCondtions(const Vector& a, const Vector& b, const Vector& c) {
+void Particle::checkBoundaryConditions(const Vector& a, const Vector& b, const Vector& c) {
 
 	Vector nbc = sign(a|(b*c))*(1/(b*c).length())*(b*c);
 	Vector nca = sign(b|(c*a))*(1/(c*a).length())*(c*a);
 	Vector nab = sign(c|(a*b))*(1/(a*b).length())*(a*b);
 
 	if((nbc|a) < (nbc|position)) {
-		position = position - 2*((nbc|position) - (nbc|a))*nbc; 
+		position = position - 2*((nbc|Vector(position)) - (nbc|a))*nbc; 
 	}
 	else if((nbc|position) < 0) {
-		position = postion - 2*(nbc|position)*nbc;
+		position = position - 2*(nbc|Vector(position))*nbc;
 	}
 
 	if((nca|b) < (nca|position)) {
 		position = position - 2*((nca|position) - (nca|b))*nca; 
 	}
 	else if((nca|position) < 0) {
-		position = postion - 2*(nca|position)*nca;
+		position = position - 2*(nca|position)*nca;
 	}
 
 	if((nab|c) < (nab|position)) {
 		position = position - 2*((nab|position) - (nab|c))*nab; 
 	}
 	else if((nab|position) < 0) {
-		position = postion - 2*(nab|position)*nab;
+		position = position - 2*(nab|position)*nab;
 	}
 
 }
 
-void Particle::applyPeriedicBoundaryConditions(const Vector& a, const Vector& b, const Vector& c) {
+void Particle::applyPeriodicBoundaryConditions(const Vector& a, const Vector& b, const Vector& c) {
 	
 }

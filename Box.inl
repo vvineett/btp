@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <cstdlib>
 
 #include "Box.h"
 
@@ -13,7 +13,7 @@ Box::Box(const Vector& a, const Vector& b, const Vector& c) {
 	this->c = c;
 }
 
-static Box Box::boxWithEdges(const Vector& a, const Vector& b, const Vector& c) {
+Box Box::boxWithEdges(const Vector& a, const Vector& b, const Vector& c) {
 	return Box(a,b,c);
 }
 
@@ -37,7 +37,7 @@ void Box::simulate(int nIter, double duration) {
 	std::cout<<"Simuation starts: nIter = " << nIter << " , each iteration duration = " << duration << std::endl;
 	for(int i=0; i<nIter; i++) {
 		std::cout<< "i= " << i+1 << std::endl;
-		force = Force::vanderwaalForces(particles);
+		force = Force().vanderwaalForces(particles);
 		for(int j=0; j< particles.size(); j++) {
 			particles[j].updateByVelocityVerlet(force[j], duration);
 		}

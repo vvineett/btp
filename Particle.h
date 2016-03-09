@@ -34,14 +34,28 @@ public:
 
 
 	/* Particle in box*/
-	void checkBoundaryCondtions(const Vector&, const Vector&, const Vector&);
+	void checkBoundaryConditions(const Vector&, const Vector&, const Vector&);
 
 	/*particle in periodic boundary box */
-	void applyPeriedicBoundaryConditions(const Vector&, const Vector&, const Vector&);
+	void applyPeriodicBoundaryConditions(const Vector&, const Vector&, const Vector&);
 
 	/* position, velocity, acc printers*/
 	void printPosVelAcc() {
 		std::cout << position << "\t" << velocity << "\t" << acc << "\n";
+	}
+
+	/*getters*/
+
+	Vector getPosition() const {
+		return Vector(position);
+	}
+
+	double getRadius() const {
+		return radius;
+	}
+
+	double getMass() const {
+		return mass;
 	}
 };
 

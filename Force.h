@@ -14,18 +14,16 @@ class Force {
 
 
 
-	Force();
 	// Force(const vector<Particle>&);
 
 public:
+	Force();
 	Force(const Force&);
 	~Force();
 
 	/*static factory method*/
 
-	static	vector<Vector> vanderwaalForces(const vector<Particle>&);
-
-
+	vector<Vector> vanderwaalForces(const vector<Particle>&);
 };
 
 #include "Force.inl"

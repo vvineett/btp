@@ -12,7 +12,6 @@ class Box {
 	vector<Particle> particles;
 	vector<Vector> force;
 
-	Box();
 	Box(const Vector&, const Vector&, const Vector&);
 
 	void applyBoundary();
@@ -20,7 +19,9 @@ class Box {
 	void applyPeriodicBoundary();
 
 public:
-	static Box boxWithEdges(const Vector&, const Vector&, const Vector&);
+	Box();
+	
+	Box boxWithEdges(const Vector&, const Vector&, const Vector&);
 
 	void addParticles(int, int);
 

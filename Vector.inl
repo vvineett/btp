@@ -3,19 +3,19 @@
 
 #include "Vector.h"
 
-Vector :: Vector(double _i, double _j, double _k) {
+Vector::Vector(double _i, double _j, double _k) {
 	this->i = _i;
 	this->j = _j;
 	this->k = _k;
 }
 
-Vector :: Vector(const Vector& other) {
+Vector::Vector(const Vector& other) {
 	this->i = other.i;
 	this->j = other.j;
 	this->k = other.k;
 }
 
-Vector :: ~Vector() {}
+Vector::~Vector() {}
 
 
 Vector operator* (const Vector& a, const Vector& b) {
@@ -38,7 +38,7 @@ double operator| (const Vector& a, const Vector& b) {
 	return (a.i*b.i + a.j*b.j + a.k*b.k);
 }
 
-double Vector :: length() {
+double Vector::length() {
 	return sqrt((*this)|(*this));
 }
 
