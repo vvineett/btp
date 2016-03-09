@@ -15,20 +15,29 @@ class Particle {
 	Vector halfVel;
 	Vector acc;
 
-public:
-
-	Particle(double = 0, double = 0, double = 0, Vector = Vector(), Vector = Vector(), Vector = Vector());
-	Particle(const Particle&);
-	~Particle();
-
 	/*helpers for velocity verlet*/
 	void updateAcceleration(const Vector&);
 	void updateVelocity(double = 1);
 	void updateHalfVelocity(double = 1);
 	void updatePosition(double = 1);
 
+public:
+
+	Particle(double = 0, double = 0, double = 0, Vector = Vector(), Vector = Vector(), Vector = Vector());
+	Particle(const Particle&);
+	~Particle();
+
+	
+
 	/* velocity verlet*/
 	void updateByVelocityVerlet(const Vector&, double);
+
+
+	/* Particle in box*/
+	void checkBoundaryCondtions(const Vector&, const Vector&, const Vector&);
+
+	/*particle in periodic boundary box */
+	void applyPeriedicBoundaryConditions(const Vector&, const Vector&, const Vector&);
 
 	/* position, velocity, acc printers*/
 	void printPosVelAcc() {
