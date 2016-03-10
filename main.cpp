@@ -10,15 +10,15 @@ using namespace std;
 
 
 int main(int argc, char** argv) {
-	int num = 2;
+	int num = 3;
 
-	Vector a(10,0,0), b(0,10,0), c(0,0,10);
+	Vector a(10,0,0), b(0,0,0), c(0,0,0);
 
 	Box box = Box().boxWithEdges(a,b,c);
 
 	box.addParticles(num, 2*num+1);
 
-	box.simulate(100, 1);
+	box.simulate(100, 0.1);
 
 	// Particle p(1,0,0.000001, a, b, c);
 	// p.printPosVelAcc();

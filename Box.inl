@@ -25,7 +25,7 @@ void Box::addParticles(int n, int seed) {
 		Vector vel;
 		Vector a;
 
-		Particle p(1,0,0.000001, pos, vel, a);
+		Particle p(1,0,0.5, pos, vel, a);
 
 		particles.push_back(p);
 	}

@@ -12,13 +12,16 @@ public:
 
 	~Vector();
 
-	double length();
+	double length() const;
 
 	friend Vector operator* (const Vector&, const Vector&);  //Vector Product
 	friend Vector operator- (const Vector&, const Vector&);  //substraction
 	friend Vector operator+ (const Vector&, const Vector&);  //vector addition
 	friend Vector operator* (const double, const Vector&);   //scalar multiplication
 	friend double operator| (const Vector&, const Vector&);  //scalar product of vectors
+
+	friend bool operator== (const Vector&, const Vector&);
+	friend bool operator!= (const Vector&, const Vector&);
 
 	/* basic io operations*/
 	friend std::ostream& operator<< (std::ostream&, const Vector&);

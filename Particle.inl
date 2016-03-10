@@ -62,29 +62,48 @@ double sign(double a) {
 
 void Particle::checkBoundaryConditions(const Vector& a, const Vector& b, const Vector& c) {
 
-	Vector nbc = sign(a|(b*c))*(1/(b*c).length())*(b*c);
-	Vector nca = sign(b|(c*a))*(1/(c*a).length())*(c*a);
-	Vector nab = sign(c|(a*b))*(1/(a*b).length())*(a*b);
+	if( (a*b) != Vector() && (b*c) != 0 && (c*a) != 0) {
+		Vector nbc = sign(a|(b*c))*(1/(b*c).length())*(b*c);
+		Vector nca = sign(b|(c*a))*(1/(c*a).length())*(c*a);
+		Vector nab = sign(c|(a*b))*(1/(a*b).length())*(a*b);
 
-	if((nbc|a) < (nbc|position)) {
-		position = position - 2*((nbc|Vector(position)) - (nbc|a))*nbc; 
-	}
-	else if((nbc|position) < 0) {
-		position = position - 2*(nbc|Vector(position))*nbc;
-	}
+		if((nbc|a) < (nbc|position)) {
+			position = position - 2*((nbc|Vector(position)) - (nbc|a))*nbc;
+			velocity = velocity - 2*((nbc|Vector(velocity))*nbc);
+		}
+		else if((nbc|position) < 0) {
+			position = position - 2*(nbc|Vector(position))*nbc;
+			velocity = velocity - 2*((nbc|Vector(velocity))*nbc);
+		}
 
-	if((nca|b) < (nca|position)) {
-		position = position - 2*((nca|position) - (nca|b))*nca; 
-	}
-	else if((nca|position) < 0) {
-		position = position - 2*(nca|position)*nca;
-	}
+		if((nca|b) < (nca|position)) {
+			position = position - 2*((nca|position) - (nca|b))*nca;
+			velocity = velocity - 2*((nca|Vector(velocity))*nca); 
+		}
+		else if((nca|position) < 0) {
+			position = position - 2*(nca|position)*nca;
+			velocity = velocity - 2*((nca|Vector(velocity))*nca); 
+		}
 
-	if((nab|c) < (nab|position)) {
-		position = position - 2*((nab|position) - (nab|c))*nab; 
+		if((nab|c) < (nab|position)) {
+			position = position - 2*((nab|position) - (nab|c))*nab;
+			velocity = velocity - 2*((nab|Vector(velocity))*nab); 
+		}
+		else if((nab|position) < 0) {
+			position = position - 2*(nab|position)*nab;
+			velocity = velocity - 2*((nab|Vector(velocity))*nab); 
+
+		}
 	}
-	else if((nab|position) < 0) {
-		position = position - 2*(nab|position)*nab;
+	else {
+		if( a.length() < position.length() && (position|a) > 0) {
+			position = position - 2*(position - a);
+			velocity = -1*velocity;
+		}
+		else if((position|a) < 0) {
+			position = -1*position;
+			velocity = -1*velocity; 
+		}
 	}
 
 }

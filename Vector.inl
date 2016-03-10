@@ -38,7 +38,15 @@ double operator| (const Vector& a, const Vector& b) {
 	return (a.i*b.i + a.j*b.j + a.k*b.k);
 }
 
-double Vector::length() {
+bool operator== (const Vector& a, const Vector& b) {
+	return ((a.i==b.i) && (a.j==b.j) && (a.k==b.k));
+}
+
+bool operator!= (const Vector& a, const Vector& b) {
+	return !(a==b);
+}
+
+double Vector::length() const {
 	return sqrt((*this)|(*this));
 }
 
