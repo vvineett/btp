@@ -5,20 +5,23 @@
 #include "Particle.h"
 #include "Box.h"
 #include "Force.h"
+#include "SimBoxBuilder.h"
 
 using namespace std;
 
 
 int main(int argc, char** argv) {
-	int num = 3;
 
-	Vector a(10,0,0), b(0,0,0), c(0,0,0);
+	// if(tokens[0].find(string("nIter")) != string::npos) {
+	// 	nIter = stoi(tokens[1]);
+	// }
+	// else if(tokens[0].find(string("duration")) != string::npos) {
+	// 	duration = stod(tokens[1]);
+	// }
 
-	Box box = Box().boxWithEdges(a,b,c);
+	Box box = SimBoxBuilder().fromParamFile(string("param.in"), true);
 
-	box.addParticles(num, 2*num+1);
-
-	box.simulate(100, 0.1);
+	box.simulate(1000, 0.1);
 
 	// Particle p(1,0,0.000001, a, b, c);
 	// p.printPosVelAcc();

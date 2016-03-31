@@ -25,6 +25,8 @@ public:
 
 	void addParticles(int, int);
 
+	void addParticles(const vector<Particle>&);
+
 	void simulate(int nIter, double duration);
 };
 

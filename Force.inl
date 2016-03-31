@@ -35,11 +35,12 @@ vector<Vector> Force::vanderwaalForces(const vector<Particle>& particles) {
 Vector vanderwaalForce(const Particle& a, const Particle& b) {
 	Vector f;
 
-	if((a.getPosition()-b.getPosition()).length() < a.getRadius() + b.getRadius()) {
+	if((a.getPosition()-b.getPosition()).length() <= a.getRadius() + b.getRadius()) {
 		f = collisionvanderwaalForces(a,b);
 	}
 	else {
-		f = ((G * a.getMass() * b.getMass())/pow((b.getPosition() - a.getPosition()).length(),3))* (b.getPosition() - a.getPosition());
+		f = ((G * a.getMass() * b.getMass())
+				/pow((b.getPosition() - a.getPosition()).length(),3))* (b.getPosition() - a.getPosition());
 	}
 
 	return f;

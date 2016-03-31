@@ -25,7 +25,7 @@ void Box::addParticles(int n, int seed) {
 		Vector vel;
 		Vector a;
 
-		Particle p(1,0,0.5, pos, vel, a);
+		Particle p(std::string("X"),1,0,0.5, pos, vel, a);
 
 		particles.push_back(p);
 	}
@@ -33,10 +33,20 @@ void Box::addParticles(int n, int seed) {
 	return;
 }
 
+void Box::addParticles(const vector<Particle>& parts) {
+	int n = parts.size();
+	for(int i = 0; i<n; i++) {
+		particles.push_back(parts[i]);
+	}
+
+	return;
+}
+
 void Box::simulate(int nIter, double duration) {
-	std::cout<<"Simuation starts: nIter = " << nIter << " , each iteration duration = " << duration << std::endl;
+	// std::cout<<"Simuation starts: nIter = " << nIter << " , each iteration duration = " << duration << std::endl;
 	for(int i=0; i<nIter; i++) {
-		std::cout<< "i= " << i+1 << std::endl;
+		std::cout<< particles.size() << std::endl;
+		// std::cout<< "i= " << i+1 << std::endl;
 		force = Force().vanderwaalForces(particles);
 		for(int j=0; j< particles.size(); j++) {
 			particles[j].updateByVelocityVerlet(force[j], duration);
@@ -45,11 +55,11 @@ void Box::simulate(int nIter, double duration) {
 		applyBoundary();
 
 		for(int j = 0; j<particles.size(); j++) {
-			particles[j].printPosVelAcc();
+			std::cout<< particles[j].toXYZ() << std::endl;
 		}
 
 
-		std::cout<< "---------------------------------------------------------------------------------------" << std::endl;
+		// std::cout<< std::endl;
 
 	}
 
@@ -57,6 +67,12 @@ void Box::simulate(int nIter, double duration) {
 
 void Box::applyBoundary() {
 	for(int j = 0; j< particles.size(); j++) {
-		particles[j].checkBoundaryConditions(a, b, c);
+		particles[j].applyBoundaryConditions(a, b, c);
+	}
+}
+
+void Box::applyPeriodicBoundary() {
+	for(int j = 0; j< particles.size(); j++) {
+		particles[j].applyPeriodicBoundaryConditions(a, b, c);
 	}
 }

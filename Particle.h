@@ -2,15 +2,19 @@
 #define _PARTICLE_H
 
 #include <iostream>
+#include <string>
+#include <cstdio>
+#include <cstring>
 
 #include "Vector.h"
 
 
 class Particle {
-	double mass;
-	double charge;
-	double radius;
-	Vector position;
+	std::string symbol;
+	double mass;		/* micrograms*/
+	double charge;		/* Coulombs */
+	double radius; 		/* in Angstorm*/
+	Vector position; 	/* Angstorm*/
 	Vector velocity;
 	Vector halfVel;
 	Vector acc;
@@ -23,7 +27,7 @@ class Particle {
 
 public:
 
-	Particle(double = 0, double = 0, double = 0, Vector = Vector(), Vector = Vector(), Vector = Vector());
+	Particle(std::string = std::string("X"), double = 0, double = 0, double = 0, Vector = Vector(), Vector = Vector(), Vector = Vector());
 	Particle(const Particle&);
 	~Particle();
 
@@ -34,7 +38,7 @@ public:
 
 
 	/* Particle in box*/
-	void checkBoundaryConditions(const Vector&, const Vector&, const Vector&);
+	void applyBoundaryConditions(const Vector&, const Vector&, const Vector&);
 
 	/*particle in periodic boundary box */
 	void applyPeriodicBoundaryConditions(const Vector&, const Vector&, const Vector&);
@@ -42,6 +46,14 @@ public:
 	/* position, velocity, acc printers*/
 	void printPosVelAcc() {
 		std::cout << position << "\t" << velocity << "\t" << acc << "\n";
+	}
+
+	/*traj format*/
+	std::string toXYZ() {
+		char printer[200];
+		sprintf(printer, "%s %s", symbol.c_str(), position.print().c_str());
+
+		return std::string(printer);
 	}
 
 	/*getters*/

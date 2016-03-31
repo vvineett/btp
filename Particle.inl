@@ -1,6 +1,14 @@
 #include "Particle.h"
 
-Particle :: Particle(double _mass, double _charge, double _radius, Vector _position, Vector _velocity, Vector _acc) {
+Particle :: Particle(std::string _symbol,
+					double _mass,
+					double _charge,
+					double _radius,
+					Vector _position,
+					Vector _velocity,
+					Vector _acc) {
+
+	this->symbol = _symbol;
 	this->mass = _mass;
 	this->charge = _charge;
 	this->radius = _radius;
@@ -11,6 +19,7 @@ Particle :: Particle(double _mass, double _charge, double _radius, Vector _posit
 }
 
 Particle :: Particle(const Particle& other) {
+	this->symbol = other.symbol;
 	this->mass = other.mass;
 	this->charge = other.charge;
 	this->radius = other.radius;
@@ -60,18 +69,22 @@ double sign(double a) {
 }
 
 
-void Particle::checkBoundaryConditions(const Vector& a, const Vector& b, const Vector& c) {
+void Particle::applyBoundaryConditions(const Vector& a, const Vector& b, const Vector& c) {
 
-	if( (a*b) != Vector() && (b*c) != 0 && (c*a) != 0) {
-		Vector nbc = sign(a|(b*c))*(1/(b*c).length())*(b*c);
-		Vector nca = sign(b|(c*a))*(1/(c*a).length())*(c*a);
-		Vector nab = sign(c|(a*b))*(1/(a*b).length())*(a*b);
+	/* check if any of the two vectors are parallel, Vector() == Vector(0,0,0)*/
+	if( (a*b) != Vector() && (b*c) != Vector() && (c*a) != Vector()) {
+		Vector nbc = sign(a|(b*c))*(1/(b*c).length())*(b*c); /* normal to plane containing b and c,
+															  	such that it has positive component towards a*/
 
-		if((nbc|a) < (nbc|position)) {
+		Vector nca = sign(b|(c*a))*(1/(c*a).length())*(c*a); /*normal to plane containing a and c*/
+		Vector nab = sign(c|(a*b))*(1/(a*b).length())*(a*b); /*normal to plane containing b and a*/
+
+		/* check if particle is farther than a's component in direction parallel to nbc*/
+		if((nbc|a) < ((nbc|position)) ) {
 			position = position - 2*((nbc|Vector(position)) - (nbc|a))*nbc;
 			velocity = velocity - 2*((nbc|Vector(velocity))*nbc);
 		}
-		else if((nbc|position) < 0) {
+		else if(((nbc|position)) < 0) {
 			position = position - 2*(nbc|Vector(position))*nbc;
 			velocity = velocity - 2*((nbc|Vector(velocity))*nbc);
 		}
@@ -110,4 +123,35 @@ void Particle::checkBoundaryConditions(const Vector& a, const Vector& b, const V
 
 void Particle::applyPeriodicBoundaryConditions(const Vector& a, const Vector& b, const Vector& c) {
 	
+	/* check if any of the two vectors are parallel, Vector() == Vector(0,0,0)*/
+	if( (a*b) != Vector() && (b*c) != Vector() && (c*a) != Vector()) {
+		Vector nbc = sign(a|(b*c))*(1/(b*c).length())*(b*c); /* normal to plane containing b and c,
+															  	such that it has positive component towards a*/
+
+		Vector nca = sign(b|(c*a))*(1/(c*a).length())*(c*a); /*normal to plane containing a and c*/
+		Vector nab = sign(c|(a*b))*(1/(a*b).length())*(a*b); /*normal to plane containing b and a*/
+
+		/* check if particle is farther than a's component in direction parallel to nbc*/
+		if((nbc|a) < ((nbc|position))) {
+			position = position - a; /* particle enters in opposite side of box*/
+		}
+		/* check if particle is out of box in opposite direction as a parallel to nbc*/
+		else if(((nbc|position)) < 0) {
+			position = position + a;
+		}
+
+		if((nca|b) < (nca|position)) {
+			position = position - b;
+		}
+		else if((nca|position) < 0) {
+			position = position + b;
+		}
+
+		if((nab|c) < (nab|position)) {
+			position = position - c;
+		}
+		else if((nab|position) < 0) {
+			position = position + c;
+		}
+	}
 }

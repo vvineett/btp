@@ -2,6 +2,10 @@
 #define _VECTOR_H
 
 #include <iostream>
+#include <string>
+#include <cstdio>
+#include <cstring>
+
 
 class Vector {
 	double i,j,k;
@@ -26,6 +30,13 @@ public:
 	/* basic io operations*/
 	friend std::ostream& operator<< (std::ostream&, const Vector&);
 	friend std::istream& operator>> (std::istream&, Vector&);
+
+	std::string print() {
+		char printer[200];
+		sprintf(printer, "%lf %lf %lf", i, j, k);
+
+		return std::string(printer);
+	}
 
 };
 
