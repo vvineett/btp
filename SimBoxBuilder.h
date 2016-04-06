@@ -5,12 +5,13 @@
 
 class SimBoxBuilder {
 public:
-	SimBoxBuilder();
-	SimBoxBuilder(const SimBoxBuilder& other);
-	~SimBoxBuilder();
+    SimBoxBuilder();
+    SimBoxBuilder(const SimBoxBuilder& other);
+    ~SimBoxBuilder();
 
-	Box fromParamFile(string fileName, bool random = false);
+    Box fromParamFile(string fileName, bool random = false);
 };
 
-#include "SimBoxBuilder.cxx"
-#endif //SIMBOXBUILDER_H
+
+#endif /* SIMBOXBUILDER_H */
+

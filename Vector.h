@@ -1,45 +1,135 @@
-#ifndef _VECTOR_H
-#define _VECTOR_H
+#ifndef VECTOR_H
+#define VECTOR_H
 
-#include <iostream>
-#include <string>
-#include <cstdio>
-#include <cstring>
+#include <cmath>
+#include <iosfwd>
 
-
+template <class T>
 class Vector {
-	double i,j,k;
+    T i, j, k;
 
 public:
-	Vector(double = 0, double = 0, double = 0);
-	Vector(const Vector&);
+    Vector(T = 0, T = 0, T = 0);
+    Vector(const Vector<T>&);
+    ~Vector();
 
-	~Vector();
+    T xComp() const {
+        return i;
+    }
 
-	double length() const;
+    T yComp() const {
+        return j;
+    }
 
-	friend Vector operator* (const Vector&, const Vector&);  //Vector Product
-	friend Vector operator- (const Vector&, const Vector&);  //substraction
-	friend Vector operator+ (const Vector&, const Vector&);  //vector addition
-	friend Vector operator* (const double, const Vector&);   //scalar multiplication
-	friend double operator| (const Vector&, const Vector&);  //scalar product of vectors
+    T zComp() const {
+        return k;
+    }
 
-	friend bool operator== (const Vector&, const Vector&);
-	friend bool operator!= (const Vector&, const Vector&);
+    double length() const;
 
-	/* basic io operations*/
-	friend std::ostream& operator<< (std::ostream&, const Vector&);
-	friend std::istream& operator>> (std::istream&, Vector&);
+    template <class Y>
+    friend Vector<Y> operator*(const Vector<Y>&, const Vector<Y>&); //Vector Product
 
-	std::string print() {
-		char printer[200];
-		sprintf(printer, "%lf %lf %lf", i, j, k);
+    template <class Y>
+    friend Vector<Y> operator-(const Vector<Y>&, const Vector<Y>&); //substraction
 
-		return std::string(printer);
-	}
+    template <class Y>
+    friend Vector<Y> operator+(const Vector<Y>&, const Vector<Y>&); //vector addition
 
+    template <class Y>
+    friend Vector<Y> operator*(const Y, const Vector<Y>&); //scalar multiplication
+
+    template <class Y>
+    friend Y operator|(const Vector<Y>&, const Vector<Y>&); //scalar product of vectors
+
+    template <class Y>
+    friend bool operator==(const Vector<Y>&, const Vector<Y>&);
+    template <class Y>
+    friend bool operator!=(const Vector<Y>&, const Vector<Y>&);
+
+
+
+    /* basic i/o operations*/
+    /*  friend std::ostream& operator<< (std::ostream&, const Vector&);
+        friend std::istream& operator>> (std::istream&, Vector&); */
 };
 
-#include "Vector.inl"
+template <class T>
+Vector<T>::Vector(T _i, T _j, T _k) {
+    this->i = _i;
+    this->j = _j;
+    this->k = _k;
+}
 
-#endif
+template <class T>
+Vector<T>::Vector(const Vector<T>& other) {
+    this->i = other.i;
+    this->j = other.j;
+    this->k = other.k;
+}
+
+template <class T>
+Vector<T>::~Vector() {
+}
+
+template <class T>
+Vector<T> operator*(const Vector<T>& a, const Vector<T>& b) {
+    return Vector<T>(a.j * b.k - a.k * b.j, a.k * b.i - a.i * b.k, a.i * b.j - a.j * b.i);
+}
+
+template <class T>
+Vector<T> operator+(const Vector<T>& a, const Vector<T>& b) {
+    return Vector<T>(a.i + b.i, a.j + b.j, a.k + b.k);
+}
+
+template <class T>
+Vector<T> operator-(const Vector<T>& a, const Vector<T>& b) {
+    return Vector<T>(a.i - b.i, a.j - b.j, a.k - b.k);
+}
+
+template <class T>
+Vector<T> operator*(const T a, const Vector<T>& v) {
+    return Vector<T>(a * v.i, a * v.j, a * v.k);
+}
+
+template <class T>
+T operator|(const Vector<T>& a, const Vector<T>& b) {
+    return (a.i * b.i + a.j * b.j + a.k * b.k);
+}
+
+template <class T>
+bool operator==(const Vector<T>& a, const Vector<T>& b) {
+    return ((a.i == b.i) && (a.j == b.j) && (a.k == b.k));
+}
+
+template <class T>
+bool operator!=(const Vector<T>& a, const Vector<T>& b) {
+    return !(a == b);
+}
+
+template <class T>
+double Vector<T>::length() const {
+    return sqrt((*this) | (*this));
+}
+
+/*io operations*/
+/*
+template <class T>
+std::ostream& operator<< (std::ostream& output, const Vector<T>& v) {
+    output << string("( ") << v.i << string(", ") << v.j << string(", ") << v.k << string(")");
+    return output;
+}
+
+template <class T>
+std::istream& operator>> (std::istream& input, Vector<T>& v) {
+    input  >> v.i >> v.j >> v.k;
+
+    return input;
+} */
+
+template class Vector<int>;
+template class Vector<double>;
+
+
+#endif /* VECTOR_H */
+

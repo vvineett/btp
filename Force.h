@@ -1,5 +1,5 @@
-#ifndef _FORCE_H
-#define _FORCE_H
+#ifndef FORCE_H
+#define FORCE_H
 
 #include <vector>
 #include <map>
@@ -10,22 +10,21 @@
 using namespace std;
 
 class Force {
-	// std::map<Particle*, Vector > forceMap;
+    // std::map<Particle*, Vector<double> > forceMap;
 
 
 
-	// Force(const vector<Particle>&);
+    // Force(const vector<Particle>&);
 
 public:
-	Force();
-	Force(const Force&);
-	~Force();
+    Force();
+    Force(const Force&);
+    ~Force();
 
-	/*static factory method*/
+    /*static factory method*/
 
-	vector<Vector> vanderwaalForces(const vector<Particle>&);
+    vector<Vector<double>> vanderwaalForces(const vector<Particle>&);
 };
 
-#include "Force.inl"
+#endif /* FORCE_H */
 
-#endif

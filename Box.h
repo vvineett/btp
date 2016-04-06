@@ -1,35 +1,40 @@
-#ifndef _BOX_H
-#define _BOX_H
+#ifndef BOX_H
+#define BOX_H
 
 #include <iostream>
+#include <string>
 
 #include "Particle.h"
 #include "Vector.h"
 #include "Force.h"
 
 class Box {
-	Vector a, b, c; //edges of box
-	vector<Particle> particles;
-	vector<Vector> force;
+    Vector<double> a, b, c; //edges of box
+    vector<Particle> particles;
+    vector<Vector<double>> force;
+    
+    string xyz;
+    
+    Box(const Vector<double>&, const Vector<double>&, const Vector<double>&);
 
-	Box(const Vector&, const Vector&, const Vector&);
+    void applyBoundary();
 
-	void applyBoundary();
-
-	void applyPeriodicBoundary();
+    void applyPeriodicBoundary();
 
 public:
-	Box();
-	
-	Box boxWithEdges(const Vector&, const Vector&, const Vector&);
+    Box();
 
-	void addParticles(int, int);
+    Box boxWithEdges(const Vector<double>&, const Vector<double>&, const Vector<double>&);
 
-	void addParticles(const vector<Particle>&);
+    void addParticles(int, int);
 
-	void simulate(int nIter, double duration);
+    void addParticles(const vector<Particle>&);
+
+    void simulate(int nIter, double duration);
+    
+    string toXYZ() const {
+        return this->xyz;
+    }
 };
 
-#include "Box.inl"
-
-#endif
+#endif /* BOX_H */
