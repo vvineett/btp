@@ -27,7 +27,9 @@ void Box::addParticles(int n, int seed) {
     srand(seed);
 
     for (int i = 0; i < n; i++) {
-        Vector<double> pos = (((double) (rand() % 99 + 1) / 100.0) * a) + (((double) (rand() % 99 + 1) / 100.0) * b) +(((double) (rand() % 99 + 1) / 100.0) * c);
+        Point<double> pos = Point<double>::origin().movedBy(((double(rand() % 99 + 1)/100.0) * a)
+                                        +((double(rand() % 99 + 1) / 100.0) * b)
+                                        +((double(rand() % 99 + 1) / 100.0) * c));
         Vector<double> vel;
         Vector<double> a;
 

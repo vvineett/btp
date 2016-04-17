@@ -86,7 +86,7 @@ vector<Particle> fromXYZ(string fileXYZ) {
 
         double x, y, z;
         in >> x >> y >> z;
-        Vector<double> pos(x, y, z);
+        Point<double> pos(x, y, z);
         Vector<double> vel;
         Vector<double> a;
 

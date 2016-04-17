@@ -7,13 +7,14 @@
 #include <cstring>
 
 #include "Vector.h"
+#include "Point.h"
 
 class Particle {
     std::string symbol;
     double mass; /* micrograms*/
     double charge; /* Coulombs */
     double radius; /* in Angstorm*/
-    Vector<double> position; /* Angstorm*/
+    Point<double> position; /* Angstorm*/
     Vector<double> velocity;
     Vector<double> halfVel;
     Vector<double> acc;
@@ -26,7 +27,13 @@ class Particle {
 
 public:
 
-    Particle(std::string = std::string("X"), double = 0, double = 0, double = 0, Vector<double> = Vector<double>(), Vector<double> = Vector<double>(), Vector<double> = Vector<double>());
+    Particle(std::string = std::string("X"),
+            double = 0,
+            double = 0,
+            double = 0,
+            Point<double> = Point<double>(),
+            Vector<double> = Vector<double>(),
+            Vector<double> = Vector<double>());
     Particle(const Particle&);
     ~Particle();
 
@@ -37,10 +44,14 @@ public:
 
 
     /* Particle in box*/
-    void applyBoundaryConditions(const Vector<double>&, const Vector<double>&, const Vector<double>&);
+    void applyBoundaryConditions(const Vector<double>&,
+            const Vector<double>&,
+            const Vector<double>&);
 
     /*particle in periodic boundary box */
-    void applyPeriodicBoundaryConditions(const Vector<double>&, const Vector<double>&, const Vector<double>&);
+    void applyPeriodicBoundaryConditions(const Vector<double>&,
+            const Vector<double>&,
+            const Vector<double>&);
 
 //    /* position, velocity, acc printers*/
 //    void printPosVelAcc() {
@@ -50,15 +61,19 @@ public:
     /*traj format*/
     std::string toXYZ() {
         char printer[200];
-        sprintf(printer, "%s %lf %lf %lf", symbol.c_str(), position.xComp(), position.yComp(), position.zComp());
+        sprintf(printer, "%s %lf %lf %lf",
+                symbol.c_str(),
+                position.xCoord(),
+                position.yCoord(),
+                position.zCoord());
 
         return std::string(printer);
     }
 
     /*getters*/
 
-    Vector<double> getPosition() const {
-        return Vector<double>(position);
+    Point<double> getPosition() const {
+        return Point<double>(position);
     }
 
     double getRadius() const {

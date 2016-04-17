@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
     Box box = SimBoxBuilder().fromParamFile(string("param.in"), false);
 
-    box.simulate(1000, 0.1);
+    box.simulate(100, 0.1);
     
     string sim = box.toXYZ();
     

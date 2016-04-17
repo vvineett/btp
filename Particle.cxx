@@ -4,7 +4,7 @@ Particle::Particle(std::string _symbol,
         double _mass,
         double _charge,
         double _radius,
-        Vector<double> _position,
+        Point<double> _position,
         Vector<double> _velocity,
         Vector<double> _acc) {
 
@@ -43,7 +43,7 @@ void Particle::updateHalfVelocity(double timeInterval) {
 }
 
 void Particle::updatePosition(double timeInterval) {
-    this->position = this->position + timeInterval * this->halfVel;
+    this->position = this->position.movedBy(timeInterval * this->halfVel);
 }
 
 void Particle::updateVelocity(double timeInterval) {
@@ -70,6 +70,8 @@ double sign(double a) {
 
 void Particle::applyBoundaryConditions(const Vector<double>& a, const Vector<double>& b, const Vector<double>& c) {
 
+    Vector<double> positionVector = position - Point<double>::origin();
+    
     /* check if any of the two vectors are parallel, Vector<double>() == Vector<double>(0,0,0)*/
     if ((a * b) != Vector<double>() && (b * c) != Vector<double>() && (c * a) != Vector<double>()) {
         Vector<double> nbc = sign(a | (b * c))*(1.0 / (b * c).length())*(b * c); /* normal to plane containing b and c,
@@ -79,35 +81,36 @@ void Particle::applyBoundaryConditions(const Vector<double>& a, const Vector<dou
         Vector<double> nab = sign(c | (a * b))*(1.0 / (a * b).length())*(a * b); /*normal to plane containing b and a*/
 
         /* check if particle is farther than a's component in direction parallel to nbc*/
-        if ((nbc | a) < ((nbc | position))) {
-            position = position - 2.0 * ((nbc | Vector<double>(position)) - (nbc | a)) * nbc;
+        
+        if ((nbc | a) < ((nbc | positionVector))) {
+            position = position.movedBy(-2.0 * ((nbc | positionVector) - (nbc | a)) * nbc);
             velocity = velocity - 2.0 * ((nbc | Vector<double>(velocity)) * nbc);
-        } else if (((nbc | position)) < 0) {
-            position = position - 2.0 * (nbc | Vector<double>(position)) * nbc;
+        } else if (((nbc | positionVector)) < 0) {
+            position = position.movedBy(- 2.0 * (nbc | positionVector) * nbc);
             velocity = velocity - 2.0 * ((nbc | Vector<double>(velocity)) * nbc);
         }
 
-        if ((nca | b) < (nca | position)) {
-            position = position - 2.0 * ((nca | position) - (nca | b)) * nca;
+        if ((nca | b) < (nca | positionVector)) {
+            position = position.movedBy(-2.0 * ((nca | positionVector) - (nca | b)) * nca);
             velocity = velocity - 2.0 * ((nca | Vector<double>(velocity)) * nca);
-        } else if ((nca | position) < 0) {
-            position = position - 2.0 * (nca | position) * nca;
+        } else if ((nca | positionVector) < 0) {
+            position = position.movedBy( -2.0 * (nca | positionVector) * nca);
             velocity = velocity - 2.0 * ((nca | Vector<double>(velocity)) * nca);
         }
 
-        if ((nab | c) < (nab | position)) {
-            position = position - 2.0 * ((nab | position) - (nab | c)) * nab;
+        if ((nab | c) < (nab | positionVector)) {
+            position = position.movedBy( -2.0 * ((nab | positionVector) - (nab | c)) * nab);
             velocity = velocity - 2.0 * ((nab | Vector<double>(velocity)) * nab);
-        } else if ((nab | position) < 0) {
-            position = position - 2.0 * (nab | position) * nab;
+        } else if ((nab | positionVector) < 0) {
+            position = position.movedBy( -2.0 * (nab | positionVector) * nab);
             velocity = velocity - 2.0 * ((nab | Vector<double>(velocity)) * nab);
 
         }
     } else {
-        if (a.length() < position.length() && (position | a) > 0) {
-            position = position - 2.0 * (position - a);
+        if (a.length() < positionVector.length() && (positionVector | a) > 0) {
+            position = position.movedBy( -2.0 * (positionVector - a));
             velocity = -1.0 * velocity;
-        } else if ((position | a) < 0) {
+        } else if ((positionVector | a) < 0) {
             position = -1.0 * position;
             velocity = -1.0 * velocity;
         }
@@ -117,6 +120,8 @@ void Particle::applyBoundaryConditions(const Vector<double>& a, const Vector<dou
 
 void Particle::applyPeriodicBoundaryConditions(const Vector<double>& a, const Vector<double>& b, const Vector<double>& c) {
 
+    Vector<double> positionVector = position - Point<double>::origin();
+    
     /* check if any of the two vectors are parallel, Vector<double>() == Vector<double>(0,0,0)*/
     if ((a * b) != Vector<double>() && (b * c) != Vector<double>() && (c * a) != Vector<double>()) {
         Vector<double> nbc = sign(a | (b * c))*(1.0 / (b * c).length())*(b * c); /* normal to plane containing b and c,
@@ -126,23 +131,23 @@ void Particle::applyPeriodicBoundaryConditions(const Vector<double>& a, const Ve
         Vector<double> nab = sign(c | (a * b))*(1.0 / (a * b).length())*(a * b); /*normal to plane containing b and a*/
 
         /* check if particle is farther than a's component in direction parallel to nbc*/
-        if ((nbc | a) < ((nbc | position))) {
-            position = position - a; /* particle enters in opposite side of box*/
+        if ((nbc | a) < ((nbc | positionVector))) {
+            position = position.movedBy(-1.0*a); /* particle enters in opposite side of box*/
         }            /* check if particle is out of box in opposite direction as a parallel to nbc*/
-        else if (((nbc | position)) < 0) {
-            position = position + a;
+        else if (((nbc | positionVector)) < 0) {
+            position = position.movedBy(a);
         }
 
-        if ((nca | b) < (nca | position)) {
-            position = position - b;
-        } else if ((nca | position) < 0) {
-            position = position + b;
+        if ((nca | b) < (nca | positionVector)) {
+            position = position.movedBy(-1.0*b);
+        } else if ((nca | positionVector) < 0) {
+            position = position.movedBy(b);
         }
 
-        if ((nab | c) < (nab | position)) {
-            position = position - c;
-        } else if ((nab | position) < 0) {
-            position = position + c;
+        if ((nab | c) < (nab | positionVector)) {
+            position = position.movedBy(-1.0*c);
+        } else if ((nab | positionVector) < 0) {
+            position = position.movedBy(c);
         }
     }
 }

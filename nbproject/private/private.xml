@@ -4,4 +4,19 @@
         <activeConfTypeElem>1</activeConfTypeElem>
         <activeConfIndexElem>0</activeConfIndexElem>
     </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/batman/BTP/btp/Vector.h</file>
+            <file>file:/home/batman/BTP/btp/Force.h</file>
+            <file>file:/home/batman/BTP/btp/main.cxx</file>
+            <file>file:/home/batman/BTP/btp/Particle.cxx</file>
+            <file>file:/home/batman/BTP/btp/Box.h</file>
+            <file>file:/home/batman/BTP/btp/SimBoxBuilder.cxx</file>
+            <file>file:/home/batman/BTP/btp/Particle.h</file>
+            <file>file:/home/batman/BTP/btp/SimBoxBuilder.h</file>
+            <file>file:/home/batman/BTP/btp/Force.cxx</file>
+            <file>file:/home/batman/BTP/btp/Box.cxx</file>
+        </group>
+    </open-files>
 </project-private>
